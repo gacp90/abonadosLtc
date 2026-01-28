@@ -18,6 +18,46 @@ const getRole = (role) => {
 }
 
 /** =====================================================================
+ *  GET CORRECTIVES QUERY
+=========================================================================*/
+const getCorrectivesQuery = async(req, res) => {
+
+    try {
+
+        const { desde, hasta, sort, ...query } = req.body;
+
+        const [correctives, total] = await Promise.all([
+
+            Corrective.find(query)
+                .populate('create', 'name')
+                .populate('staff', 'name')
+                .populate('notes.staff', 'name role img')
+                .populate('client', 'name cedula phone email address city')
+                .populate('product', 'code serial brand model year status estado next img ubicacion')
+                .limit(hasta)
+                .skip(desde)
+                .sort(sort),
+            Corrective.countDocuments(query)
+        ])
+
+        res.json({
+            ok: true,
+            correctives,
+            total
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error inesperado, porfavor intente nuevamente'
+        });
+
+    }
+
+};
+
+/** =====================================================================
  *  GET CORRECTIVES
 =========================================================================*/
 const getCorrectives = async(req, res = response) => {
@@ -349,5 +389,6 @@ module.exports = {
     deleteCorrectives,
     getCorrectiveId,
     postNotesCorrectives,
-    getCorrectiveProduct
+    getCorrectiveProduct,
+    getCorrectivesQuery
 };

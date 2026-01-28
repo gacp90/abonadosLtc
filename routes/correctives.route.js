@@ -9,11 +9,15 @@ const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
 // CONTROLLER
-const { getCorrectives, createCorrectives, updateCorrectives, deleteCorrectives, getCorrectiveId, postNotesCorrectives, getCorrectiveProduct } = require('../controllers/correctives.controller');
+const { getCorrectives, createCorrectives, updateCorrectives, deleteCorrectives, getCorrectiveId, postNotesCorrectives, getCorrectiveProduct, getCorrectivesQuery } = require('../controllers/correctives.controller');
 
 
 
 const router = Router();
+/** =====================================================================
+ *  GET QUERY
+=========================================================================*/
+router.post('/query', validarJWT, getCorrectivesQuery);
 
 /** =====================================================================
  *  GET CORRECTIVES

@@ -43,6 +43,10 @@ const ProductSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Clients',
     },
+    
+    ubicacion: {
+        type: String
+    },
 
     preventivo: {
         type: Boolean,
