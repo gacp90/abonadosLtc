@@ -17,9 +17,15 @@ const {
     oneProduct,
     updateClientProduct,
     getProductsClients,
+    getProductsQuery,
 } = require('../controllers/products.controller');
 
 const router = Router();
+
+/** =====================================================================
+ *  GET QUERY
+=========================================================================*/
+router.post('/query', validarJWT, getProductsQuery);
 
 /** =====================================================================
  *  GET PRODUCTS

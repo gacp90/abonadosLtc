@@ -2,6 +2,43 @@ const { response } = require('express');
 
 const Product = require('../models/products.model');
 
+
+/** =====================================================================
+ *  GET PRODUCTS QUERY
+=========================================================================*/
+const getProductsQuery = async(req, res) => {
+
+    try {
+
+        const { desde, hasta, sort, ...query } = req.body;
+
+        const [products, total] = await Promise.all([
+
+            Product.find(query)
+                .populate('client', 'name cid phone address')
+                .limit(hasta)
+                .skip(desde)
+                .sort(sort),
+            Product.countDocuments(query)
+        ])
+
+        res.json({
+            ok: true,
+            products,
+            total
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error inesperado, porfavor intente nuevamente'
+        });
+
+    }
+
+};
+
 /** =====================================================================
  *  GET PRODUCTS
 =========================================================================*/
@@ -383,5 +420,6 @@ module.exports = {
     oneProduct,
     updateClientProduct,
     productsExcel,
-    getProductsClients
+    getProductsClients,
+    getProductsQuery
 };
