@@ -3,7 +3,7 @@ const { response } = require('express');
 const Client = require('../models/clients.model');
 
 /** =====================================================================
- *  GET CLIENTSS
+ *  GET CLIENTS
 =========================================================================*/
 const getClients = async(req, res = response) => {
 
